@@ -60,7 +60,18 @@ class EvaluationRegistry:
 @dataclass(frozen=True)
 class AttendancePolicy:
     # Política de asistencia mínima
-    has_reached_minimum: bool
+    percentage: float
+    min_required: float = 80.0
+
+    def __post_init__(self) -> None:
+        if not (0 <= self.percentage <= 100):
+            raise ValidationError("El porcentaje de asistencia debe estar entre 0 y 100.")
+        if not (0 <= self.min_required <= 100):
+            raise ValidationError("El porcentaje mínimo requerido debe estar entre 0 y 100.")
+
+    @property
+    def has_reached_minimum(self) -> bool:
+        return self.percentage >= self.min_required
 
 
 @dataclass(frozen=True)
