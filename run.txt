@@ -1,1 +1,0 @@
-sonar-scanner.bat -D"sonar.projectKey=Prueba-SoftFinal" -D"sonar.sources=." -D"sonar.host.url=http://localhost:9000" -D"sonar.token=sqp_75e450af06038cc3599cce9ea462727c2fb3e9ab"
