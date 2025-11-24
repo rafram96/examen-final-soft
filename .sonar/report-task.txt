@@ -1,0 +1,6 @@
+projectKey=FinalSoftware
+serverUrl=http://localhost:9009
+serverVersion=25.11.0.114957
+dashboardUrl=http://localhost:9009/dashboard?id=FinalSoftware
+ceTaskId=924f3013-170c-4435-96c7-773c683b1b1f
+ceTaskUrl=http://localhost:9009/api/ce/task?id=924f3013-170c-4435-96c7-773c683b1b1f
