@@ -6,3 +6,6 @@ __pycache__/
 .pytest_cache/
 coverage.xml
 .coverage
+requerimientos.txt
+enunciado.txt
+run.txt

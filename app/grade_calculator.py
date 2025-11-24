@@ -1,10 +1,11 @@
-"""Domain models and services for the CS-GradeCalculator console app."""
+# Módulo de dominio para el cálculo de notas finales
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Iterable, List, Sequence
 
+# Constantes del sistema
 MAX_EVALUATIONS = 10
 MIN_SCORE = 0.0
 MAX_SCORE = 20.0
@@ -13,13 +14,13 @@ EXTRA_POINTS_VALUE = 1.0
 
 
 class ValidationError(ValueError):
-    """Domain-specific validation error."""
+    # Error de validación del dominio
+    pass
 
 
 @dataclass(frozen=True)
 class Evaluation:
-    """Represents a graded evaluation with a score and a relative weight."""
-
+    # Representa una evaluación con nota y peso relativo
     name: str
     score: float
     weight: float
@@ -36,8 +37,7 @@ class Evaluation:
 
 @dataclass
 class EvaluationRegistry:
-    """Keeps track of the evaluations registered for a student."""
-
+    # Registra las evaluaciones de un estudiante con límite de 10
     evaluations: List[Evaluation] = field(default_factory=list)
 
     def add(self, evaluation: Evaluation) -> None:
@@ -50,7 +50,7 @@ class EvaluationRegistry:
         for evaluation in evaluations:
             self.add(evaluation)
 
-    def __len__(self) -> int:  # pragma: no cover - trivial
+    def __len__(self) -> int:
         return len(self.evaluations)
 
     def total_weight(self) -> float:
@@ -59,11 +59,13 @@ class EvaluationRegistry:
 
 @dataclass(frozen=True)
 class AttendancePolicy:
+    # Política de asistencia mínima
     has_reached_minimum: bool
 
 
 @dataclass(frozen=True)
 class ExtraPointsPolicy:
+    # Política de puntos extra según acuerdo de docentes
     all_years_teachers: bool
     extra_points_value: float = EXTRA_POINTS_VALUE
 
@@ -77,6 +79,7 @@ class ExtraPointsPolicy:
 
 @dataclass(frozen=True)
 class GradeCalculationResult:
+    # Resultado del cálculo de nota final con detalles
     student_id: str
     evaluations: Sequence[Evaluation]
     weighted_average: float
@@ -96,8 +99,8 @@ class GradeCalculationResult:
 
 
 class GradeCalculator:
-    """Encapsulates the business rules to compute the final grade."""
-
+    # Calcula la nota final aplicando reglas de negocio
+    
     def calculate(
         self,
         *,
@@ -116,11 +119,13 @@ class GradeCalculator:
         weighted_average = self._calculate_weighted_average(evaluations)
         attendance_penalty = not attendance_policy.has_reached_minimum
 
+        # Si no cumple asistencia, la nota final es 0
         if attendance_penalty:
             final_grade = 0.0
             extra_points = 0.0
         else:
             extra_points = extra_points_policy.resolve_points()
+            # La nota final no puede superar el máximo permitido
             final_grade = min(MAX_FINAL_SCORE, weighted_average + extra_points)
 
         return GradeCalculationResult(

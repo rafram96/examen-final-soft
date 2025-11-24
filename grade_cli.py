@@ -1,4 +1,4 @@
-"""CLI to interact with the CS-GradeCalculator module."""
+# Interfaz de consola para el calculador de notas
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ from app.grade_calculator import (
 
 
 def prompt_non_empty(prompt: str) -> str:
+    # Solicita entrada no vacía hasta obtener valor válido
     while True:
         value = input(prompt).strip()
         if value:
@@ -21,6 +22,7 @@ def prompt_non_empty(prompt: str) -> str:
 
 
 def prompt_float(prompt: str, *, minimum: float | None = None, maximum: float | None = None) -> float:
+    # Solicita un número flotante dentro de los límites opcionales
     while True:
         try:
             value = float(input(prompt))
@@ -36,6 +38,7 @@ def prompt_float(prompt: str, *, minimum: float | None = None, maximum: float | 
 
 
 def prompt_bool(prompt: str) -> bool:
+    # Solicita respuesta sí/no hasta obtener valor válido
     while True:
         value = input(f"{prompt} (s/n): ").strip().lower()
         if value in {"s", "si", "sí", "y"}:
@@ -46,6 +49,7 @@ def prompt_bool(prompt: str) -> bool:
 
 
 def collect_evaluations() -> list[Evaluation]:
+    # Recopila las evaluaciones del estudiante validando cada entrada
     registry = EvaluationRegistry()
     total = int(prompt_float("¿Cuántas evaluaciones registrarás? (0-10): ", minimum=0, maximum=10))
     for index in range(1, total + 1):
